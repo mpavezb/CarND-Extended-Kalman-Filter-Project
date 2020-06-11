@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+// TODO: somehow it is important to include this again!
 #include "Eigen/Dense"
 #include "tools.h"
 
@@ -11,9 +12,6 @@ using std::cout;
 using std::endl;
 using std::vector;
 
-/**
- * Constructor.
- */
 FusionEKF::FusionEKF() {
   is_initialized_ = false;
 
@@ -37,10 +35,9 @@ FusionEKF::FusionEKF() {
    */
 }
 
-/**
- * Destructor.
- */
 FusionEKF::~FusionEKF() {}
+
+VectorXd FusionEKF::GetEstimate() const { return ekf_.GetState(); }
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
@@ -55,8 +52,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     // first measurement
     cout << "EKF: " << endl;
-    ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
+    // ekf_.x_ = VectorXd(4);
+    // ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // TODO: Convert radar from polar to cartesian coordinates
@@ -96,12 +93,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // TODO: Radar updates
-
+    // ekf_.Update(const Eigen::VectorXd &z);
   } else {
     // TODO: Laser updates
+    // ekf_.UpdateEKF(const Eigen::VectorXd &z);
   }
 
   // print the output
-  cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+  // cout << "x_ = " << ekf_.x_ << endl;
+  // cout << "P_ = " << ekf_.P_ << endl;
 }

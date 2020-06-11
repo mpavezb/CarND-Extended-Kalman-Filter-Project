@@ -12,14 +12,7 @@
 
 class FusionEKF {
  public:
-  /**
-   * Constructor.
-   */
   FusionEKF();
-
-  /**
-   * Destructor.
-   */
   virtual ~FusionEKF();
 
   /**
@@ -28,14 +21,19 @@ class FusionEKF {
   void ProcessMeasurement(const MeasurementPackage &measurement_pack);
 
   /**
-   * Kalman Filter update and prediction math lives in here.
+   * Get current Kalman Filter estimate
    */
-  KalmanFilter ekf_;
+  Eigen::VectorXd GetEstimate() const;
 
  private:
+  /**
+   * Kalman Filter update and prediction math lives in here.
+   */
+  KalmanFilter ekf_{};
+
   // check whether the tracking toolbox was initialized or not (first
   // measurement)
-  bool is_initialized_;
+  bool is_initialized_{false};
 
   // previous timestamp
   long long previous_timestamp_;

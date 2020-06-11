@@ -20,22 +20,28 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
   H_ = H_in;
   R_ = R_in;
   Q_ = Q_in;
+  is_initialized_ = true;
 }
 
 void KalmanFilter::Predict() {
+  if (not is_initialized_) return;
   /**
    * TODO: predict the state
    */
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
+  if (not is_initialized_) return;
   /**
    * TODO: update the state by using Kalman Filter equations
    */
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
+  if (not is_initialized_) return;
   /**
    * TODO: update the state by using Extended Kalman Filter equations
    */
 }
+
+VectorXd KalmanFilter::GetState() const { return x_; }

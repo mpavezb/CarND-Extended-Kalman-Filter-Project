@@ -47,6 +47,14 @@ class KalmanFilter {
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
+  /**
+   * Get current Kalman Filter state estimate
+   */
+  Eigen::VectorXd GetState() const;
+
+ private:
+  bool is_initialized_{false};
+
   // state vector
   Eigen::VectorXd x_;
 
