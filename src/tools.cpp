@@ -39,10 +39,43 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 }
 
 MatrixXd Tools::CalculateJacobian(const VectorXd &x_state) {
-  /**
-   * TODO:
-   * Calculate a Jacobian here.
-   */
-  MatrixXd m{};
-  return m;
+  MatrixXd Hj(3, 4);
+
+  const float px = x_state(0);
+  const float py = x_state(1);
+  const float vx = x_state(2);
+  const float vy = x_state(3);
+
+  // pre-compute a set of terms to avoid repeated calculation
+  const float c1 = px * px + py * py;
+  const float c2 = sqrt(c1);
+  const float c3 = (c1 * c2);
+
+  // check division by zero
+  if (fabs(c1) < 0.0001) {
+    std::cout << "CalculateJacobian() - Error - Division by Zero" << std::endl;
+    return Hj;
+  }
+
+  // compute the Jacobian matrix
+  const float Hj_11 = px / c2;
+  const float Hj_12 = py / c2;
+  const float Hj_13 = 0;
+  const float Hj_14 = 0;
+
+  const float Hj_21 = -1 * py / c1;
+  const float Hj_22 = px / c1;
+  const float Hj_23 = 0;
+  const float Hj_24 = 0;
+
+  const float Hj_31 = py * (vx * py - vy * px) / c3;
+  const float Hj_32 = px * (px * vy - py * vx) / c3;
+  const float Hj_33 = Hj_11;
+  const float Hj_34 = Hj_12;
+
+  Hj << Hj_11, Hj_12, Hj_13, Hj_14,  //
+      Hj_21, Hj_22, Hj_23, Hj_24,    //
+      Hj_31, Hj_32, Hj_33, Hj_34;    //
+
+  return Hj;
 }
