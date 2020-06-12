@@ -5,8 +5,9 @@
 
 class MeasurementPackage {
  public:
-  enum SensorType { LASER, RADAR } sensor_type_;
+  enum class SensorType : uint8_t { LASER, RADAR };
 
+  SensorType sensor_type_;
   long long timestamp_;
 
   Eigen::VectorXd raw_measurements_;
