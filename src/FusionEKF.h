@@ -26,6 +26,12 @@ class FusionEKF {
   Eigen::VectorXd GetEstimate() const;
 
  private:
+  void Initialize(const MeasurementPackage &measurement_pack);
+  void InitializeWithRadar(const float rho, const float phi,
+                           const float rho_dot);
+  void InitializeWithLidar(const float px, const float py);
+  void Prediction(long long timestamp);
+
   /**
    * Kalman Filter update and prediction math lives in here.
    */
@@ -36,14 +42,18 @@ class FusionEKF {
   bool is_initialized_{false};
 
   // previous timestamp
-  long long previous_timestamp_;
+  long long previous_timestamp_{0ll};
 
   // tool object used to compute Jacobian and RMSE
   Tools tools;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
-  Eigen::MatrixXd Hj_;
+  Eigen::MatrixXd H_radar_;
+
+  // acceleration noise components
+  float noise_ax_{9.0f};
+  float noise_ay_{9.0f};
 };
 
 #endif  // FusionEKF_H_

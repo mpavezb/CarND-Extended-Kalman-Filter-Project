@@ -52,9 +52,7 @@ class KalmanFilter {
    */
   Eigen::VectorXd GetState() const;
 
- private:
-  bool is_initialized_{false};
-
+ public:
   // state vector
   Eigen::VectorXd x_;
 

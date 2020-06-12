@@ -101,6 +101,7 @@ int main() {
           iss >> vx_gt;
           iss >> vy_gt;
 
+          // ground truth
           VectorXd gt_values(4);
           gt_values(0) = x_gt;
           gt_values(1) = y_gt;
@@ -108,10 +109,8 @@ int main() {
           gt_values(3) = vy_gt;
           ground_truth.push_back(gt_values);
 
-          // Call ProcessMeasurement(meas_package) for Kalman filter
+          // estimate
           fusionEKF.ProcessMeasurement(meas_package);
-
-          // Get estimate
           const auto estimate = fusionEKF.GetEstimate();
           estimations.push_back(estimate);
 
