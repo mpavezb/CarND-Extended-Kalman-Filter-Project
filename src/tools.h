@@ -28,6 +28,15 @@ class Tools {
    * A helper method to calculate Jacobians.
    */
   Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd &x_state);
-};
 
+  /**
+   * Projects state vector to radar space (rho, phi, rho_dot).
+   */
+  static Eigen::VectorXd ProjectStateToRadar(const Eigen::VectorXd &z);
+
+  /**
+   * Normalizes angle between -PI, PI
+   */
+  static float normalize_angle(const float value);
+};
 #endif  // TOOLS_H_

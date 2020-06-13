@@ -79,3 +79,26 @@ MatrixXd Tools::CalculateJacobian(const VectorXd &x_state) {
 
   return Hj;
 }
+
+float Tools::normalize_angle(const float value) {
+  double a = fmod(value + M_PI, 2 * M_PI);
+  return a >= 0 ? (a - M_PI) : (a + M_PI);
+}
+
+Eigen::VectorXd Tools::ProjectStateToRadar(const Eigen::VectorXd &z) {
+  const float px = z[0];
+  const float py = z[1];
+  const float vx = z[2];
+  const float vy = z[3];
+
+  float rho = sqrtf(px * px + py * py);
+  float phi = atan2f(py, px);
+  float rho_dot = 0;
+  if (rho > 0.0001) {
+    rho_dot = (px * vx + py * vy) / rho;
+  }
+
+  Eigen::VectorXd z_pred(3);
+  z_pred << rho, phi, rho_dot;
+  return z_pred;
+}

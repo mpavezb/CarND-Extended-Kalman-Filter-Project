@@ -48,7 +48,7 @@ FusionEKF::FusionEKF() {
 
 FusionEKF::~FusionEKF() {}
 
-Eigen::VectorXd FusionEKF::GetEstimate() const { return ekf_.GetState(); }
+Eigen::VectorXd FusionEKF::GetEstimate() const { return ekf_.x_; }
 
 void FusionEKF::Initialize(const MeasurementPackage &measurement_pack) {
   switch (measurement_pack.sensor_type_) {
@@ -70,12 +70,12 @@ void FusionEKF::InitializeWithRadar(const float rho, const float phi,
   // Polar to cartesian conversion
   const float px = rho * cosf(phi);
   const float py = rho * sinf(phi);
-  const float vx = rho_dot * cosf(phi);
-  const float vy = rho_dot * sinf(phi);
+  const float vx = 0;
+  const float vy = 0;
 
   // state vector
   ekf_.x_ = Eigen::VectorXd(4);
-  ekf_.x_ << px, py, vx, vy;
+  ekf_.x_ << px, py, 0, 0;
 
   is_initialized_ = true;
 }
